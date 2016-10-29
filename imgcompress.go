@@ -28,6 +28,7 @@ var (
 const (
 	projectId = "imgcompressor"
 	port      = ":3030"
+	bucktName = "imgcompressor_bucket"
 	version   = 0.1
 )
 
@@ -88,7 +89,6 @@ var s *Server
 
 func init() {
 	const scope = storage.DevstorageFullControlScope
-
 	client, err := google.DefaultClient(context.Background(), scope)
 	if err != nil {
 		log.Fatalf("Failed to initialize the default client %v\n", err)
@@ -99,15 +99,16 @@ func init() {
 		log.Fatalf("Failed to initialize the storage: %v\n", err)
 	}
 
-	s = &Server{service, "imgresizer_bucket"}
+	s = &Server{service, bucketName}
 
 	// bucket initialization stuff
 	if _, err := s.Store.Buckets.Get(s.StoreName).Do(); err == nil {
 		log.Println("Store bucket already there")
 	} else {
-		res, err := s.Store.Buckets.Insert(projectId, &storage.Bucket{Name: s.StoreName}).Do()
+		bucket := &storage.Bucket{Name: s.StoreName}
+		res, err := s.Store.Buckets.Insert(projectId, bucket).Do()
 		if err == nil {
-			log.Printf("Created bucket %v at location %v\n\n", res.Name, res.SelfLink)
+			log.Printf("Created bucket %v\n", res.Name)
 		} else {
 			log.Fatalf("Failed creating bucket %s: %v", s.StoreName, err)
 		}
