@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"errors"
+	"flag"
 	"image"
 	"image/jpeg"
 	"log"
@@ -91,7 +92,10 @@ func (s *Server) upload(data *bytes.Buffer, name string) (string, error) {
 
 var s *Server
 
-func init() {
+func main() {
+	hostname := flag.String("hostname", "localhost", "Hostname for the server")
+	flag.Parse()
+
 	const scope = storage.DevstorageFullControlScope
 	client, err := google.DefaultClient(context.Background(), scope)
 	if err != nil {
@@ -118,7 +122,7 @@ func init() {
 		}
 	}
 
-	listener, err := net.Listen("tcp", port)
+	listener, err := net.Listen("tcp", *hostname+port)
 	if err != nil {
 		log.Fatal(err)
 	}
