@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+service Img {
+	rpc Compress(Request) returns (Result)	{
+	}
+}
+
+message Request {
+	string  Data    = 1;
+	int32 Quality = 2;
+	string Name = 3;
+}
+
+message Result {
+	string Link = 1;
+	string Name = 2;
+}
+

@@ -10,6 +10,8 @@ not "clearly visible to the human eye".
 Size reduction the primary the only objective of this service, is not directly
 proportional to the quality parameter, i.e an image of 600K is reduced to roughly
 100K ( assuming had 100% quality to start with ).
+Its' ready to be deployed on app engine just change the main server func to init.
+
 
 - TODO
 	add testing improve the logic/performance;
