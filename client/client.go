@@ -15,7 +15,7 @@ func main() {
 }
 
 func Send() {
-	img, err := ioutil.ReadFile("/home/wind85/Pictures/face.jpg")
+	img, err := ioutil.ReadFile("face.jpg")
 	if err != nil {
 		log.Fatal(err)
 	}
